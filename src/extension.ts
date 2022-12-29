@@ -1,10 +1,13 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { commands } from "vscode";
+import { commands, languages } from "vscode";
 import {
-	createNewPage
+	createNewPage,
+	wrapWithBlocBuilder
 } from "./commands";
+
+import { BlocCodeActionProvider } from "./code-actions";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -25,9 +28,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		commands.registerCommand("clean-architecture.create-new-page", createNewPage),
-		commands.registerCommand("clean-architecture.create-new-use-case", createNewPage),
+		commands.registerCommand("clean-architecture.wrap-blocbuilder", wrapWithBlocBuilder),
+		languages.registerCodeActionsProvider(
+			DART_MODE,
+			new BlocCodeActionProvider()
+		),
 	);
 }
+
+const DART_MODE = { language: "dart", scheme: "file" };
 
 // This method is called when your extension is deactivated
 export function deactivate() { }

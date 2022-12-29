@@ -1,6 +1,7 @@
 {
   "name": "generate-clean-architecture",
-  "displayName": "generator_page",
+  "displayName": "Generate Clean Architecture",
+  "publisher": "huybui663",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -17,8 +18,8 @@
         "title": "New Page"
       },
       {
-        "command": "clean-architecture.create-new-use-case",
-        "title": "New Use Case"
+        "command": "clean-architecture.wrap-blocbuilder",
+        "title": "Clean Architecture: Wrap with BlocBuilder"
       }
     ],
     "menus": {
@@ -32,10 +33,6 @@
         {
           "command": "clean-architecture.create-new-page",
           "group": "@clean-architecture"
-        },
-        {
-          "command": "clean-architecture.create-new-use-case",
-          "group": "@clean-architecture"
         }
       ]
     },
@@ -43,6 +40,12 @@
       {
         "label": "Clean Architecture",
         "id": "create-new-page"
+      }
+    ],
+    "commandPalette": [
+      {
+        "command": "clean-architecture.wrap-blocbuilder",
+        "when": "editorLangId == dart"
       }
     ]
   },
@@ -66,8 +69,8 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "18.x",
     "@types/vscode": "^1.74.0",
-    "@typescript-eslint/eslint-plugin": "^5.47.0",
-    "@typescript-eslint/parser": "^5.47.0",
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
     "@vscode/test-electron": "^2.2.1",
     "eslint": "^8.30.0",
     "glob": "^8.0.3",
@@ -79,7 +82,7 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
-    "node-fetch": "^3.3.0",
+    "moment": "^2.29.4",
     "semver": "^7.3.8"
   }
 }

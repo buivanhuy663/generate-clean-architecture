@@ -28,28 +28,29 @@ var pathRelative = "";
 
 
 
-export const createNewPage = async (uri: Uri) => {
-  try {
-    let targetDirectory;
-    if (_.isNil(_.get(uri, "fsPath")) || !lstatSync(uri.fsPath).isDirectory()) {
-      targetDirectory = await promptForTargetDirectory();
-      if (_.isNil(targetDirectory)) {
-        throw new Error("Please select a valid directory");
-      }
-    } else {
-      targetDirectory = uri.fsPath;
-      if (!targetDirectory.includes(basePath)) {
-        throw new Error(`A page needs to be created inside ${basePath}`);
-      }
-    }
+export const createChildComponent = async (uri: Uri) => {
+  const blocName = await promptForBlocName();
+  if (_.isNil(blocName) || blocName.trim() === "") {
+    window.showErrorMessage("The file name must not be empty");
+    return;
+  }
 
-    const blocName = await promptForBlocName();
-    if (_.isNil(blocName) || blocName.trim() === "") {
-      window.showErrorMessage("The file name must not be empty");
+  let targetDirectory;
+  if (_.isNil(_.get(uri, "fsPath")) || !lstatSync(uri.fsPath).isDirectory()) {
+    targetDirectory = await promptForTargetDirectory();
+    if (_.isNil(targetDirectory)) {
+      window.showErrorMessage("Please select a valid directory");
       return;
     }
-    const snakeCaseBlocName = changeCase.snakeCase(blocName);
-    const pascalCaseBlocName = changeCase.pascalCase(blocName);
+  } else {
+    targetDirectory = uri.fsPath;
+  }
+  const snakeCaseBlocName = changeCase.snakeCase(blocName);
+  const pascalCaseBlocName = changeCase.pascalCase(blocName);
+  try {
+    if (!targetDirectory.includes(basePath)) {
+      throw new Error(`A page needs to be created inside ${basePath}`);
+    }
 
     await generateNewPageCode(snakeCaseBlocName, targetDirectory);
     window.showInformationMessage(
@@ -57,7 +58,7 @@ export const createNewPage = async (uri: Uri) => {
     );
   } catch (error) {
     window.showErrorMessage(
-      `Error Generator:
+      `Error:
         ${error instanceof Error ? error.message : JSON.stringify(error)}`
     );
   }
@@ -111,11 +112,6 @@ async function generateNewPageCode(
   componentsPath = await createDirectory(parentPath, "components");
 
   await Promise.all([
-    createNewPageFile(name),
-    createNewPageModuleFile(name),
-    createNewPagePresenterFile(name),
-    createNewPageStateFile(name),
-    createNewPageStateFreezedFile(name),
     createExampleComponentFile(name),
   ]);
   const snakeCaseBlocName = changeCase.snakeCase(name);

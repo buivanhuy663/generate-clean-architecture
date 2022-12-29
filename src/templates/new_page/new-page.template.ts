@@ -1,9 +1,11 @@
 import * as changeCase from "change-case";
+import * as moment from 'moment';
 
 
 export function getNewPageTemplate(name: string, pathRelative: string) {
   const pascalCaseName = changeCase.pascalCase(name);
   const snakeCaseName = changeCase.snakeCase(name);
+  let formattedDate = (moment(Date())).format('DD/MM/YYYY');
   return `import 'package:flutter/material.dart';
 
 import './bloc/${snakeCaseName}_module.dart';
@@ -13,7 +15,7 @@ import './components/example_component.dart';
 import '../../${pathRelative}core/base_page/base_page.dart';
 import '../../${pathRelative}resources/resources.dart';
 
-/// Create at:    <NAME>
+/// Create at:   ${formattedDate}
 /// Page:        [${pascalCaseName}Page]
 /// Presenter:   [${pascalCaseName}Module]
 /// Presenter:   [${pascalCaseName}Presenter]
@@ -53,7 +55,7 @@ class _${pascalCaseName}PageState
 }
 
 ///==========================================================================///
-///=> Script of the [${pascalCaseName}Page] ///
+///=> Script of the [${pascalCaseName}Page]
 ///==========================================================================///
 extension _${pascalCaseName}PageScript on _${pascalCaseName}PageState {
   void onPressButton() {
