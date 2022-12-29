@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import { commands } from "vscode";
 import {
-	newBloc
+	createNewPage
 } from "./commands";
 
 // This method is called when your extension is activated
@@ -24,7 +24,8 @@ export function activate(context: vscode.ExtensionContext) {
 	});
 
 	context.subscriptions.push(
-		commands.registerCommand("extension.new-bloc", newBloc),
+		commands.registerCommand("clean-architecture.create-new-page", createNewPage),
+		commands.registerCommand("clean-architecture.create-new-use-case", createNewPage),
 	);
 }
 

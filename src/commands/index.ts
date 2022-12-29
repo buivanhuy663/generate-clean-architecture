@@ -1,1 +1,1 @@
-export * from "./new-bloc.command";
+export * from "./create-new-page.command";
