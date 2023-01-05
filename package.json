@@ -3,7 +3,11 @@
   "displayName": "Generate Clean Architecture",
   "publisher": "huybui663",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.4",
+  "icon": "images/logo-flutter.png",
+  "repository": {
+    "url": "https://github.com/buivanhuy663/generate-clean-architecture"
+  },
   "engines": {
     "vscode": "^1.74.0"
   },

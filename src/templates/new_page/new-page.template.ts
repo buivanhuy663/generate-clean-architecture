@@ -17,11 +17,11 @@ import '../../${pathRelative}resources/resources.dart';
 
 /// Create at:   ${formattedDate}
 /// Page:        [${pascalCaseName}Page]
-/// Presenter:   [${pascalCaseName}Module]
+/// Module:      [${pascalCaseName}Module]
 /// Presenter:   [${pascalCaseName}Presenter]
 /// State:       [${pascalCaseName}State]
-/// Description:
-///
+/// Description: 
+/// TODO: This is [${pascalCaseName}Page]
 class ${pascalCaseName}Page extends BasePage {
   const ${pascalCaseName}Page({Key? key}) : super(key: key);
 
@@ -34,7 +34,7 @@ class _${pascalCaseName}PageState
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) => AppBar(
         backgroundColor: AppColors.get.background,
-        title: const Text('New page'), //TODO: (remove) App bar of new page
+        title: const Text('${pascalCaseName}'), //TODO: (remove) App bar of new page
         centerTitle: true,
       );
 
@@ -55,12 +55,12 @@ class _${pascalCaseName}PageState
 }
 
 ///==========================================================================///
-///=> Script of the [${pascalCaseName}Page]
+///=> Behavior of the [${pascalCaseName}Page]
 ///==========================================================================///
-extension _${pascalCaseName}PageScript on _${pascalCaseName}PageState {
+extension _${pascalCaseName}PageBehavior on _${pascalCaseName}PageState {
   void onPressButton() {
     //TODO: (remove) Example of a self-defined method
   }
-}  
+}
 `;
 }

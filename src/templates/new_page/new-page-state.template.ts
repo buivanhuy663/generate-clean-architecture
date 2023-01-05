@@ -14,13 +14,13 @@ class ${pascalCaseName}State with _$${pascalCaseName}State {
 
   const ${pascalCaseName}State._(
       // {
-      // required bool enableButton, //TODO: Example state
+      // required bool enableButton, //TODO: (remove) Example state
       // }
       );
 
   factory ${pascalCaseName}State.initial() => ${pascalCaseName}State(
-      // enableButton: false, // TODO: init example state
+      // enableButton: false, // TODO: (remove) init example state
       );
-} 
+}
 `;
 }

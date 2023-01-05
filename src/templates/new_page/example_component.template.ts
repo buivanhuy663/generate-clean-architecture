@@ -18,7 +18,7 @@ class ExampleComponent extends StatelessWidget {
 
   final ${pascalCaseName}Presenter presenter;
 
-  //TODO: An example of a childe component whose state is wrapped by BlocBuilder
+  //TODO: (remove) An example of a childe component whose state is wrapped by BlocBuilder
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<${pascalCaseName}Presenter, ${pascalCaseName}State>(
