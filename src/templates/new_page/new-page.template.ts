@@ -33,8 +33,8 @@ class _${pascalCaseName}PageState
     extends BasePageState<${pascalCaseName}Page, ${pascalCaseName}Presenter> {
   @override
   PreferredSizeWidget? buildAppBar(BuildContext context) => AppBar(
-        backgroundColor: AppColors.get.background,
-        title: const Text('${pascalCaseName}'), //TODO: (remove) App bar of new page
+        //TODO: (remove) App bar of new page
+        title: const Text('${pascalCaseName}Page'),
         centerTitle: true,
       );
 
@@ -58,7 +58,7 @@ class _${pascalCaseName}PageState
 ///=> Behavior of the [${pascalCaseName}Page]
 ///==========================================================================///
 extension _${pascalCaseName}PageBehavior on _${pascalCaseName}PageState {
-  void onPressButton() {
+  void _onPressButton() {
     //TODO: (remove) Example of a self-defined method
   }
 }
