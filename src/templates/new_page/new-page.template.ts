@@ -46,8 +46,8 @@ class _${pascalCaseName}PageState
       );
 
   @override
-  void handlerFutureError(BuildContext context, Object? error) {
-    // TODO: (remove) Example of an overridden method
+  void handlerFutureError(Object? error) {
+    //TODO: (remove) Example of an overridden method
   }
 
   @override
