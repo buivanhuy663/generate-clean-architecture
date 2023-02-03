@@ -86,6 +86,7 @@
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "mkdirp": "^1.0.4",
+    "module-name": "^0.0.1-security",
     "moment": "^2.29.4",
     "semver": "^7.3.8"
   }
