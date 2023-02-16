@@ -1,9 +1,9 @@
 {
-  "name": "generate-clean-architecture",
+  "name": "generate-clean-architectu",
   "displayName": "Generate Clean Architecture",
   "publisher": "huybui663",
   "description": "",
-  "version": "0.0.6",
+  "version": "0.0.10",
   "icon": "images/logo-flutter.png",
   "repository": {
     "url": "https://github.com/buivanhuy663/generate-clean-architecture"
@@ -22,6 +22,14 @@
         "title": "New Page"
       },
       {
+        "command": "clean-architecture.create-json-data-freezed",
+        "title": "Json Serializable"
+      },
+      {
+        "command": "clean-architecture.create-json-data-serializable",
+        "title": "Json Freezed"
+      },
+      {
         "command": "clean-architecture.wrap-blocbuilder",
         "title": "Clean Architecture: Wrap with BlocBuilder"
       }
@@ -29,21 +37,39 @@
     "menus": {
       "explorer/context": [
         {
-          "submenu": "create-new-page",
+          "submenu": "clean-architecture-menus",
           "group": "@clean-architecture"
+        },
+        {
+          "submenu": "gen-data-class-menus",
+          "group": "@gen-data-class"
         }
       ],
-      "create-new-page": [
+      "clean-architecture-menus": [
         {
           "command": "clean-architecture.create-new-page",
           "group": "@clean-architecture"
+        }
+      ],
+      "gen-data-class-menus": [
+        {
+          "command": "clean-architecture.create-json-data-freezed",
+          "group": "@gen-data-class"
+        },
+        {
+          "command": "clean-architecture.create-json-data-serializable",
+          "group": "@gen-data-class"
         }
       ]
     },
     "submenus": [
       {
         "label": "Clean Architecture",
-        "id": "create-new-page"
+        "id": "clean-architecture-menus"
+      },
+      {
+        "label": "Data Class",
+        "id": "gen-data-class-menus"
       }
     ],
     "commandPalette": [
@@ -54,7 +80,7 @@
     ]
   },
   "activationEvents": [
-    "onCommand:extension.create-new-page",
+    "onCommand:extension.clean-architecture-menus",
     "workspaceContains:**/pubspec.yaml"
   ],
   "scripts": {

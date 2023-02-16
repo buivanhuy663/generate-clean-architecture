@@ -22,6 +22,7 @@ import '../../${pathRelative}resources/resources.dart';
 /// State:       [${pascalCaseName}State]
 /// Description: 
 /// TODO: This is [${pascalCaseName}Page]
+
 class ${pascalCaseName}Page extends BasePage {
   const ${pascalCaseName}Page({Key? key}) : super(key: key);
 
