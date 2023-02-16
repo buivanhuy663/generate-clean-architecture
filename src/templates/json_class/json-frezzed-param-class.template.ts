@@ -8,7 +8,6 @@ export function getJsonFrezzedParamClassTemplate(name: string, jsonData: Map<Str
   var param = "";
 
   jsonData.forEach((value, key, map) => {
-    const keyS = changeCase.snakeCase(key.toString());
     const keyC = changeCase.camelCase(key.toString());
     const typeValue = checkType(value);
     param += `@JsonKey(name: '${key}') required ${typeValue} ${keyC},\n   `;

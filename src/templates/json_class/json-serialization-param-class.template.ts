@@ -6,12 +6,13 @@ export function getJsonSerializationParamClassTemplate(name: string, jsonData: M
   const snakeCaseName = changeCase.snakeCase(name);
 
   var param = "";
+  var variable = "";
 
   jsonData.forEach((value, key, map) => {
-    const keyS = changeCase.snakeCase(key.toString());
     const keyC = changeCase.camelCase(key.toString());
     const typeValue = checkType(value);
-    param += `@JsonKey(name: '${key}') required ${typeValue} ${keyC},\n   `;
+    param += `required this.${keyC},\n `;
+    variable += `  @JsonKey(name: '${key}') \n  final ${typeValue} ${keyC}; \n\n`;
   });
 
   for (const key in jsonData.entries) {
@@ -19,20 +20,23 @@ export function getJsonSerializationParamClassTemplate(name: string, jsonData: M
   }
 
 
-  return `import 'package:freezed_annotation/freezed_annotation.dart';
+  return `import 'package:json_annotation/json_annotation.dart';
 
-part '${snakeCaseName}.freezed.dart';
 part '${snakeCaseName}.g.dart';
-  
-@freezed
-class ${pascalCaseName} with _$${pascalCaseName} {
-  const factory ${pascalCaseName}({
+
+@JsonSerializable()
+class ${pascalCaseName} {
+  const ${pascalCaseName}({
     ${param}
-  }) = _${pascalCaseName};
-  
+  });
+
   factory ${pascalCaseName}.fromJson(Map<String, dynamic> json) =>
       _$${pascalCaseName}FromJson(json);
-}  
+
+  ${variable}
+
+  Map<String, dynamic> toJson() => _$${pascalCaseName}ToJson(this);
+}
 `;
 }
 

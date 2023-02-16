@@ -19,15 +19,15 @@
     "commands": [
       {
         "command": "clean-architecture.create-new-page",
-        "title": "New Page"
+        "title": "[Clean Architecture] New Page"
       },
       {
         "command": "clean-architecture.create-json-data-freezed",
-        "title": "Json Serializable"
+        "title": "[Data Class] Json Freezed"
       },
       {
         "command": "clean-architecture.create-json-data-serializable",
-        "title": "Json Freezed"
+        "title": "[Data Class] Json Serializable"
       },
       {
         "command": "clean-architecture.wrap-blocbuilder",
@@ -39,19 +39,13 @@
         {
           "submenu": "clean-architecture-menus",
           "group": "@clean-architecture"
-        },
-        {
-          "submenu": "gen-data-class-menus",
-          "group": "@gen-data-class"
         }
       ],
       "clean-architecture-menus": [
         {
           "command": "clean-architecture.create-new-page",
-          "group": "@clean-architecture"
-        }
-      ],
-      "gen-data-class-menus": [
+          "group": "@create-page"
+        },
         {
           "command": "clean-architecture.create-json-data-freezed",
           "group": "@gen-data-class"
@@ -64,12 +58,8 @@
     },
     "submenus": [
       {
-        "label": "Clean Architecture",
+        "label": "Generator Code",
         "id": "clean-architecture-menus"
-      },
-      {
-        "label": "Data Class",
-        "id": "gen-data-class-menus"
       }
     ],
     "commandPalette": [

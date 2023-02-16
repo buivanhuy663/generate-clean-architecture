@@ -3,8 +3,8 @@
 import * as vscode from 'vscode';
 import { commands, languages } from "vscode";
 import {
-	createNewJsonDataFreezedClass,
-	createNewJsonDataSerializableClass,
+	createJsonDataFreezedClass,
+	createJsonDataSerializableClass,
 	createNewPage,
 	wrapWithBlocBuilder
 } from "./commands";
@@ -30,8 +30,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		commands.registerCommand("clean-architecture.create-new-page", createNewPage),
-		commands.registerCommand("clean-architecture.create-json-data-freezed", createNewJsonDataFreezedClass),
-		commands.registerCommand("clean-architecture.create-json-data-serializable", createNewJsonDataSerializableClass),
+		commands.registerCommand("clean-architecture.create-json-data-freezed", createJsonDataFreezedClass),
+		commands.registerCommand("clean-architecture.create-json-data-serializable", createJsonDataSerializableClass),
 		commands.registerCommand("clean-architecture.wrap-blocbuilder", wrapWithBlocBuilder),
 		languages.registerCodeActionsProvider(
 			DART_MODE,

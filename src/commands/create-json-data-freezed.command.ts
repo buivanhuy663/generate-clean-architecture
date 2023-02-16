@@ -3,21 +3,29 @@ import * as changeCase from "change-case";
 import { existsSync, lstatSync, writeFile } from "fs";
 import * as _ from "lodash";
 import {
-  InputBoxOptions,
-  OpenDialogOptions,
   Uri,
   window,
   workspace
 } from "vscode";
 import {
   getJsonFrezzedClassTemplate,
-  getJsonFrezzedParamClassTemplate
+  getJsonFrezzedParamClassTemplate,
+  getJsonSerializationClassTemplate,
+  getJsonSerializationParamClassTemplate
 } from "../templates/json_class";
-// import {
-//   promptFileName,
-// } from "../utils";
+import { promptFileName, promptForTargetDirectory, promptJsonData } from "../utils";
 
-export const createNewJsonDataFreezedClass = async (uri: Uri) => {
+enum TypeJsonDataE { freezed, serializable }
+
+export const createJsonDataFreezedClass = async (uri: Uri) => {
+  createNewJsonDataClass(TypeJsonDataE.freezed, uri);
+};
+
+export const createJsonDataSerializableClass = async (uri: Uri) => {
+  createNewJsonDataClass(TypeJsonDataE.serializable, uri);
+};
+
+async function createNewJsonDataClass(type: TypeJsonDataE, uri: Uri) {
   try {
     let targetDirectory;
     if (_.isNil(_.get(uri, "fsPath")) || !lstatSync(uri.fsPath).isDirectory()) {
@@ -29,19 +37,14 @@ export const createNewJsonDataFreezedClass = async (uri: Uri) => {
       targetDirectory = uri.fsPath;
     }
 
+    const fileName = await promptFileName();
+    
+    const jsonData = await promptJsonData();
 
-    const jsonClassName = await promptForJsonClassName();
-    if (_.isNil(jsonClassName) || jsonClassName.trim() === "") {
-      window.showErrorMessage("The file name must not be empty");
-      return;
-    }
+    const snakeCaseBlocName = changeCase.snakeCase(fileName);
+    const pascalCaseBlocName = changeCase.pascalCase(fileName);
 
-    const jsonData = await promptForJsonData();
-
-    const snakeCaseBlocName = changeCase.snakeCase(jsonClassName);
-    const pascalCaseBlocName = changeCase.pascalCase(jsonClassName);
-
-    await generateNewJsonClassCode(snakeCaseBlocName, targetDirectory, jsonData);
+    await generateNewJsonClassCode(type, snakeCaseBlocName, targetDirectory, jsonData);
     window.showInformationMessage(
       `Successfully Generated ${pascalCaseBlocName}`
     );
@@ -53,43 +56,9 @@ export const createNewJsonDataFreezedClass = async (uri: Uri) => {
   }
 };
 
-function promptForJsonClassName(): Thenable<string | undefined> {
-  const namePromptOptions: InputBoxOptions = {
-    prompt: "Class Name",
-    placeHolder: "ExampleModel",
-  };
-  return window.showInputBox(namePromptOptions);
-}
-
-async function promptForJsonData(): Promise<Thenable<Map<String, unknown>>> {
-  const jsonDataPromptOptions: InputBoxOptions = {
-    prompt: "Json Data",
-  };
-  const stringData = await window.showInputBox(jsonDataPromptOptions);
-  if (_.isNil(stringData) || stringData.trim() === "") {
-    return new Map();
-  }
-  const jsonObject = JSON.parse(stringData);
-  const personsMap = new Map(Object.entries(jsonObject));
-  return personsMap;
-}
-
-async function promptForTargetDirectory(): Promise<string | undefined> {
-  const options: OpenDialogOptions = {
-    canSelectMany: false,
-    openLabel: "Select a folder to create the bloc in",
-    canSelectFolders: true,
-  };
-
-  return window.showOpenDialog(options).then((uri) => {
-    if (_.isNil(uri) || _.isEmpty(uri)) {
-      return undefined;
-    }
-    return uri![0].fsPath;
-  });
-}
 
 async function generateNewJsonClassCode(
+  type: TypeJsonDataE,
   name: string,
   targetDirectory: string,
   data: Map<String, unknown>,
@@ -98,9 +67,8 @@ async function generateNewJsonClassCode(
     .getConfiguration("bloc")
     .get<boolean>("newBlocTemplate.createDirectory");
 
-
   await Promise.all([
-    createNewJsonClass(targetDirectory, name, data),
+    createNewJsonClass(type, targetDirectory, name, data),
   ]);
   const snakeCaseBlocName = changeCase.snakeCase(name);
   workspace.openTextDocument(`${targetDirectory}/${snakeCaseBlocName}.dart`).then(doc => {
@@ -109,7 +77,9 @@ async function generateNewJsonClassCode(
   });
 }
 
-function createNewJsonClass(path: String,
+function createNewJsonClass(
+  type: TypeJsonDataE,
+  path: String,
   name: string,
   data: Map<String, unknown>,
 ) {
@@ -118,25 +88,50 @@ function createNewJsonClass(path: String,
   if (existsSync(targetPath)) {
     throw Error(`${snakeCaseBlocName}.dart already exists`);
   }
+
   if (data.size === 0) {
     return new Promise<void>(async (resolve, reject) => {
-      writeFile(targetPath, getJsonFrezzedClassTemplate(name), "utf8", (error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
+      if (type === TypeJsonDataE.freezed) {
+        writeFile(targetPath, getJsonFrezzedClassTemplate(name), "utf8", (error) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve();
+        });
+      } else if (type === TypeJsonDataE.serializable) {
+        writeFile(targetPath, getJsonSerializationClassTemplate(name), "utf8", (error) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve();
+        });
+      } else {
+        throw new Error("Type Invalid");
+      }
     });
   } else {
     return new Promise<void>(async (resolve, reject) => {
-      writeFile(targetPath, getJsonFrezzedParamClassTemplate(name, data), "utf8", (error) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve();
-      });
+      if (type === TypeJsonDataE.freezed) {
+        writeFile(targetPath, getJsonFrezzedParamClassTemplate(name, data), "utf8", (error) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve();
+        });
+      } else if (type === TypeJsonDataE.serializable) {
+        writeFile(targetPath, getJsonSerializationParamClassTemplate(name, data), "utf8", (error) => {
+          if (error) {
+            reject(error);
+            return;
+          }
+          resolve();
+        });
+      } else {
+        throw new Error("Type Invalid");
+      }
     });
   }
 }
